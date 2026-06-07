@@ -16,7 +16,6 @@ interface ChatInputProps {
   onSend: (text: string) => void;
   textboxShadow: string;
   showGlow: boolean;
-  accentColor: string;
   onFocusChange?: (focused: boolean) => void;
   onTyping?: (typing: boolean) => void;
 }
@@ -25,7 +24,6 @@ function ChatInputComponent({
   onSend,
   textboxShadow,
   showGlow,
-  accentColor,
   onFocusChange,
   onTyping,
 }: ChatInputProps) {
@@ -69,17 +67,12 @@ function ChatInputComponent({
     [submit],
   );
 
-  const borderColor = focused
-    ? `${accentColor}99`
-    : hovered
-      ? `${accentColor}66`
-      : "rgba(82,82,91,0.8)";
+  const borderColor = "rgba(82,82,91,0.8)";
 
-  const hoverGlow = `0 0 18px 4px ${accentColor}66, 0 0 6px 2px ${accentColor}55`;
   const focusGlow = textboxShadow;
   const idleGlow = showGlow ? textboxShadow : "none";
 
-  const boxShadow = focused ? focusGlow : hovered ? hoverGlow : idleGlow;
+  const boxShadow = focused ? focusGlow : idleGlow;
 
   return (
     <div className="relative flex w-full items-end">
