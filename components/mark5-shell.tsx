@@ -89,7 +89,11 @@ export function Mark5Shell() {
       />
 
       <MenuToggle onClick={toggleSidebar} />
-      <AppSidebar open={sidebarOpen} onNavigate={closeSidebar} />
+      <AppSidebar
+          open={sidebarOpen}
+          onNavigate={closeSidebar}
+          onCommand={handleSend}
+        />
 
       <ArcReactor
         visible={showReactor}

@@ -16,6 +16,7 @@ interface ChatInputProps {
   onSend: (text: string) => void;
   textboxShadow: string;
   showGlow: boolean;
+  accentColor: string;
   onFocusChange?: (focused: boolean) => void;
   onTyping?: (typing: boolean) => void;
 }
@@ -24,11 +25,14 @@ function ChatInputComponent({
   onSend,
   textboxShadow,
   showGlow,
+  accentColor,
   onFocusChange,
   onTyping,
 }: ChatInputProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const isEmpty = value.trim() === "";
 
   useAutoResize(editorRef, value);
@@ -65,6 +69,18 @@ function ChatInputComponent({
     [submit],
   );
 
+  const borderColor = focused
+    ? `${accentColor}99`
+    : hovered
+      ? `${accentColor}66`
+      : "rgba(82,82,91,0.8)";
+
+  const hoverGlow = `0 0 18px 4px ${accentColor}66, 0 0 6px 2px ${accentColor}55`;
+  const focusGlow = textboxShadow;
+  const idleGlow = showGlow ? textboxShadow : "none";
+
+  const boxShadow = focused ? focusGlow : hovered ? hoverGlow : idleGlow;
+
   return (
     <div className="relative flex w-full items-end">
       <Button
@@ -84,17 +100,25 @@ function ChatInputComponent({
         data-placeholder="Type something..."
         onInput={handleInput}
         onKeyDown={handleKeyDown}
-        onFocus={() => onFocusChange?.(true)}
-        onBlur={() => onFocusChange?.(false)}
+        onFocus={() => {
+          setFocused(true);
+          onFocusChange?.(true);
+        }}
+        onBlur={() => {
+          setFocused(false);
+          onFocusChange?.(false);
+        }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
         className={cn(
           "chat-editor relative z-[1] min-h-[30px] w-full max-h-[200px] overflow-x-hidden rounded-[30px]",
-          "border-2 border-zinc-600/80 bg-zinc-800/60 py-[18px] pl-11 pr-14 text-left text-lg leading-snug text-white",
-          "outline-none backdrop-blur-xl transition-[box-shadow,border-color] duration-500",
-          "focus:border-cyan-500/40",
+          "border-2 bg-zinc-800/60 py-[18px] pl-11 pr-14 text-left text-lg leading-snug text-white",
+          "outline-none backdrop-blur-xl transition-[box-shadow,border-color] duration-300",
           isEmpty && "is-empty",
         )}
         style={{
-          boxShadow: showGlow ? textboxShadow : undefined,
+          borderColor,
+          boxShadow,
         }}
       />
 
