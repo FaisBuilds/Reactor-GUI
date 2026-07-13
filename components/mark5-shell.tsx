@@ -103,14 +103,7 @@ export function Mark5Shell() {
         pulse={pulse}
       />
 
-      <header className="pointer-events-none fixed left-0 right-0 top-6 z-20 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.35em] text-cyan-400/70">
-          Stark Industries
-        </p>
-        <h1 className="mt-1 bg-linear-to-r from-cyan-200 via-white to-orange-200 bg-clip-text text-2xl font-semibold tracking-widest text-transparent sm:text-3xl">
-          MARK 5
-        </h1>
-      </header>
+     
 
       <AiAssistant
         messages={messages}
