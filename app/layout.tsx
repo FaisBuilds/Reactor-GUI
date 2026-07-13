@@ -14,7 +14,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MARK 5 | Arc Reactor Interface",
+  title: "ARC Reactor",
   description:
     "Premium holographic Arc Reactor GUI — evolved from the original Jarvis desktop assistant concept.",
   keywords: ["arc reactor", "jarvis", "stark", "holographic UI"],
