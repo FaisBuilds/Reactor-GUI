@@ -9,20 +9,9 @@ import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import { useGlowColor } from "@/hooks/use-glow-color";
 import { useTypingPulse } from "@/hooks/use-typing-pulse";
 import { parseCommand } from "@/lib/commands";
-import type { ChatMessage } from "@/types";
-
-function createMessage(text: string): ChatMessage {
-  return {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-    text,
-    timestamp: Date.now(),
-  };
-}
 
 export function Mark5Shell() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [reactorVisible, setReactorVisible] = useState(true);
   const [inputFocused, setInputFocused] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
@@ -33,34 +22,13 @@ export function Mark5Shell() {
 
   const handleSend = useCallback(
     (raw: string) => {
-      const displayText = raw.trim();
-      const command = parseCommand(displayText);
-
-      setMessages((prev) => [...prev, createMessage(displayText)]);
+      const command = parseCommand(raw);
 
       if (command.type === "set-color") {
         glow.setColor(command.color);
-        setReactorVisible(true);
       } else if (command.type === "turn-off") {
         glow.turnOff();
-        setReactorVisible(true);
-      } else {
-        setReactorVisible(false);
       }
-    },
-    [glow],
-  );
-
-  const handleCloseMessage = useCallback(
-    (id: string) => {
-      setMessages((prev) => {
-        const next = prev.filter((m) => m.id !== id);
-        if (next.length === 0) {
-          setReactorVisible(true);
-          glow.restoreFromStorage();
-        }
-        return next;
-      });
     },
     [glow],
   );
@@ -72,8 +40,6 @@ export function Mark5Shell() {
   const closeSidebar = useCallback(() => {
     setSidebarOpen(false);
   }, []);
-
-  const showReactor = reactorVisible && glow.hydrated;
 
   const accentColor = useMemo(
     () => (glow.isOff ? "#333" : glow.theme.accent),
@@ -96,7 +62,7 @@ export function Mark5Shell() {
         />
 
       <ArcReactor
-        visible={showReactor}
+        visible={glow.hydrated}
         ringFilter={glow.ringFilter}
         centreFilter={glow.centreFilter}
         accentColor={accentColor}
@@ -106,9 +72,7 @@ export function Mark5Shell() {
      
 
       <AiAssistant
-        messages={messages}
         onSend={handleSend}
-        onCloseMessage={handleCloseMessage}
         textboxShadow={glow.textboxShadow}
         inputGlow={inputGlow}
         onInputFocusChange={setInputFocused}
