@@ -1,6 +1,7 @@
-# MARK 5 — Arc Reactor GUI
+# Arc Reactor GUI
 
-A premium, modernized **Arc Reactor** holographic interface — evolved from the original Jarvis desktop assistant prototype. Built for future AI integrations while preserving the interactive reactor core experience.
+A premium, modernized Open-Source **Arc Reactor** holographic interface — evolved from the original Jarvis desktop assistant prototype. Built for future AI integrations while preserving the interactive reactor core experience. The reactor can be used as a shell for AI models, chatbots and experimentation.
+
 
 ## Stack
 
@@ -49,6 +50,11 @@ types/               # Shared TypeScript types
 public/              # arc.png, ring.png, centre.png
 legacy/              # Original HTML/CSS/JS (reference)
 ```
+
+## TRY IT!
+
+https://reactorgui.vercel.app/
+
 
 ## Legacy
 
